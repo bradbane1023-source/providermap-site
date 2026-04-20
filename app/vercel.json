@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "https://providermap.tech/:path*",
+      "destination": "https://www.providermap.tech/:path*",
+      "permanent": true
+    }
+  ]
+}
