@@ -1,18 +1,20 @@
 import { NextResponse } from "next/server";
 
 export function middleware(request) {
-  const host = request.headers.get("host");
-  const url = request.nextUrl.clone();
+  const { hostname, pathname, search } = request.nextUrl;
 
-  if (host === "providermap.tech") {
-    url.hostname = "www.providermap.tech";
-    url.protocol = "https";
-    return NextResponse.redirect(url, 308);
+  if (hostname === "providermap.tech") {
+    return NextResponse.redirect(
+      `https://www.providermap.tech${pathname}${search}`,
+      308
+    );
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/((?!_next|favicon.ico).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  ],
 };
