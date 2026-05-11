@@ -180,18 +180,8 @@ What that creates:
 
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {[
-              ["01", "Normalize", "Standardize inconsistent provider data:
-- Column names
-- Date formats
-- NPIs and TINs
-- Specialties and taxonomy
-- Locations and required fields"],
-              ["02", "Validate", "Apply clear rules to catch:
-- Missing NPIs or invalid formats
-- TIN/NPI relationship issues
-- Specialty mismatches
-- Invalid dates
-- Payer-specific gaps"],
+              ["01", "Normalize", "Standardize inconsistent provider data across column names, date formats, NPIs, TINs, specialties, taxonomy, locations, and required fields."],
+              ["02", "Validate", "Apply clear rules to catch missing NPIs, invalid formats, TIN/NPI relationship issues, specialty mismatches, invalid dates, and payer-specific gaps."],
               ["03", "Transform", "Generate clean, payer-ready files aligned to the expected roster template and submission rules."],
             ].map(([num, title, text]) => (
               <div key={title} className="rounded-3xl border border-white/10 bg-slate-900 p-8 shadow-xl">
