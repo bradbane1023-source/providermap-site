@@ -1,8 +1,8 @@
-// import "./globals.css";
+import "./globals.css";
 
 export const metadata = {
-  title: "ProviderMap.tech",
-  description: "Provider roster standardization for provider-side operations teams",
+  title: "ProviderMap",
+  description: "Provider roster validation for healthcare operations teams.",
 };
 
 export default function RootLayout({ children }) {
