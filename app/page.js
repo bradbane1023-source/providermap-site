@@ -6,13 +6,6 @@ const validationRows = [
   { label: "Payer template mapping", status: "Ready", color: "emerald" },
 ];
 
-const scenarioFlags = [
-  "14 NPIs missing digits",
-  "6 specialties did not match payer values",
-  "3 locations missing required fields",
-  "Dates formatted incorrectly for submission",
-];
-
 const workflowCards = [
   {
     step: "01",
@@ -29,20 +22,6 @@ const workflowCards = [
     title: "Transform",
     text: "Generate clean, payer-ready roster outputs aligned to the required submission structure.",
   },
-];
-
-const messyRows = [
-  ["Prov Name", "NPI #", "Spec", "Eff Date", "Tax ID"],
-  ["Jones, Amy", "1827364510", "Cardio", "1-2-26", "Missing"],
-  ["Lee Robert", "492817365", "Fam Med", "2026/02/01", "35-1234567"],
-  ["Patel, Nina", "1938475612", "Radiology", "02/15/2026", "35-1234567"],
-];
-
-const cleanRows = [
-  ["Provider Name", "NPI", "Primary Specialty", "Effective Date", "TIN"],
-  ["Amy Jones", "1827364510", "Cardiology", "01/02/2026", "Needs Review"],
-  ["Robert Lee", "Invalid NPI", "Family Medicine", "02/01/2026", "35-1234567"],
-  ["Nina Patel", "1938475612", "Radiology", "02/15/2026", "35-1234567"],
 ];
 
 const ruleRows = [
@@ -67,40 +46,6 @@ function StatusPill({ color = "cyan", children }) {
   );
 }
 
-function MiniTable({ title, rows, tone = "cyan" }) {
-  const toneStyles = {
-    rose: "border-rose-300/20 bg-rose-300/10 text-rose-200",
-    emerald: "border-emerald-300/20 bg-emerald-300/10 text-emerald-200",
-    cyan: "border-cyan-300/20 bg-cyan-300/10 text-cyan-200",
-  };
-
-  return (
-    <div className="overflow-hidden rounded-3xl border border-white/10 bg-slate-950/80 shadow-2xl shadow-black/20">
-      <div className={`border-b px-5 py-4 ${toneStyles[tone]}`}>
-        <h3 className="text-sm font-semibold">{title}</h3>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs">
-          <tbody>
-            {rows.map((row, rowIndex) => (
-              <tr key={`${title}-${rowIndex}`} className="border-b border-white/5 last:border-0">
-                {row.map((cell, cellIndex) => (
-                  <td
-                    key={`${title}-${rowIndex}-${cellIndex}`}
-                    className={`whitespace-nowrap px-4 py-3 ${rowIndex === 0 ? "font-semibold text-slate-200" : "text-slate-400"}`}
-                  >
-                    {cell}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
 function ProductPanel() {
   return (
     <div className="relative mx-auto max-w-xl lg:mx-0">
@@ -118,18 +63,9 @@ function ProductPanel() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-              <p className="text-3xl font-bold text-white">84%</p>
-              <p className="mt-1 text-xs text-slate-400">ready</p>
-            </div>
-            <div className="rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4">
-              <p className="text-3xl font-bold text-amber-200">12</p>
-              <p className="mt-1 text-xs text-amber-100/70">flags</p>
-            </div>
-            <div className="rounded-2xl border border-emerald-300/20 bg-emerald-300/10 p-4">
-              <p className="text-3xl font-bold text-emerald-200">3</p>
-              <p className="mt-1 text-xs text-emerald-100/70">outputs</p>
-            </div>
+            <MetricCard value="84%" label="ready" />
+            <MetricCard value="12" label="flags" tone="amber" />
+            <MetricCard value="3" label="outputs" tone="emerald" />
           </div>
 
           <div className="mt-5 space-y-3">
@@ -153,98 +89,117 @@ function ProductPanel() {
   );
 }
 
-function PipelineCard({ tone, eyebrow, title, children }) {
+function MetricCard({ value, label, tone = "slate" }) {
   const styles = {
-    rose: "border-rose-300/20 bg-rose-300/10 text-rose-200",
-    cyan: "border-cyan-300/20 bg-cyan-300/10 text-cyan-200",
+    slate: "border-white/10 bg-white/[0.04] text-white",
+    amber: "border-amber-300/20 bg-amber-300/10 text-amber-200",
     emerald: "border-emerald-300/20 bg-emerald-300/10 text-emerald-200",
   };
 
   return (
-    <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/90 p-5 shadow-2xl shadow-black/30">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-      <div className={`mb-5 inline-flex rounded-full border px-3 py-1 text-xs font-bold ${styles[tone]}`}>
-        {eyebrow}
-      </div>
-      <h3 className="mb-5 text-xl font-black text-white">{title}</h3>
-      {children}
+    <div className={`rounded-2xl border p-4 ${styles[tone]}`}>
+      <p className="text-3xl font-black">{value}</p>
+      <p className="mt-1 text-xs opacity-70">{label}</p>
     </div>
   );
 }
 
-function SignaturePipeline() {
+function DataPanel({ title, tone, rows }) {
+  const isRose = tone === "rose";
+
   return (
-    <div className="relative mt-14">
-      <div className="absolute inset-0 rounded-[3rem] bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.20),transparent_45%)] blur-2xl" />
-      <div className="relative rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-4 shadow-2xl shadow-cyan-950/30 backdrop-blur-xl lg:p-6">
-        <div className="grid gap-5 lg:grid-cols-[1fr_96px_1fr_96px_1fr] lg:items-stretch">
-          <PipelineCard tone="rose" eyebrow="Messy input" title="Unstructured roster">
-            <div className="space-y-3">
-              {[
-                ["Prov Name", "Spec", "Eff Date"],
-                ["Jones, Amy", "Cardio", "1-2-26"],
-                ["Lee Robert", "Fam Med", "2026/02/01"],
-                ["Patel, Nina", "Radiology", "02/15/2026"],
-              ].map((row, index) => (
-                <div key={index} className="grid grid-cols-3 gap-2 text-xs">
-                  {row.map((cell, cellIndex) => (
-                    <div key={`${index}-${cellIndex}`} className={`rounded-lg border px-2 py-2 ${index === 0 ? "border-white/10 bg-white/[0.05] font-bold text-slate-300" : cell.includes("1-2") || cell.includes("2026/") || cell === "Fam Med" || cell === "Cardio" ? "border-rose-300/20 bg-rose-300/10 text-rose-200" : "border-white/10 bg-white/[0.03] text-slate-400"}`}>
-                      {cell}
-                    </div>
-                  ))}
+    <div className={`relative rounded-[2rem] border p-5 shadow-2xl ${isRose ? "border-rose-300/25 bg-rose-300/10 shadow-rose-950/20" : "border-emerald-300/25 bg-emerald-300/10 shadow-emerald-950/20"}`}>
+      <div className={`absolute -inset-3 rounded-[2.3rem] blur-2xl ${isRose ? "bg-rose-400/10" : "bg-emerald-400/10"}`} />
+      <div className="relative">
+        <p className={`mb-4 text-xs font-bold uppercase tracking-[0.2em] ${isRose ? "text-rose-200" : "text-emerald-200"}`}>{title}</p>
+        <div className="space-y-2">
+          {rows.map((row, i) => (
+            <div key={i} className="grid grid-cols-3 gap-2 text-xs">
+              {row.map((cell, j) => (
+                <div
+                  key={`${i}-${j}`}
+                  className={`rounded-lg border px-2 py-2 ${
+                    i === 0
+                      ? "border-white/10 bg-white/[0.05] font-bold text-slate-200"
+                      : isRose && (cell.includes("1-2") || cell.includes("2026/") || cell === "Fam Med" || cell === "Cardio")
+                      ? "border-rose-300/30 bg-rose-300/15 text-rose-100"
+                      : isRose
+                      ? "border-white/10 bg-slate-950/40 text-slate-400"
+                      : "border-emerald-300/30 bg-emerald-300/15 text-emerald-100"
+                  }`}
+                >
+                  {cell}
                 </div>
               ))}
             </div>
-          </PipelineCard>
-
-          <div className="flex items-center justify-center py-2">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-cyan-300/30 bg-cyan-300/10 text-3xl font-black text-cyan-200 shadow-xl shadow-cyan-950/40 lg:h-20 lg:w-20">
-              →
-            </div>
-          </div>
-
-          <PipelineCard tone="cyan" eyebrow="ProviderMap" title="Validation engine">
-            <div className="space-y-4">
-              {["Normalize fields", "Apply payer rules", "Flag issues", "Guide corrections"].map((step, index) => (
-                <div key={step} className="flex items-center gap-3 rounded-2xl border border-cyan-300/15 bg-cyan-300/[0.06] p-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-300 text-sm font-black text-slate-950">{index + 1}</div>
-                  <span className="text-sm font-semibold text-slate-200">{step}</span>
-                </div>
-              ))}
-              <div className="rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-bold text-amber-200">Issues detected</p>
-                  <StatusPill color="amber">12 flags</StatusPill>
-                </div>
-              </div>
-            </div>
-          </PipelineCard>
-
-          <div className="flex items-center justify-center py-2">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-cyan-300/30 bg-cyan-300/10 text-3xl font-black text-cyan-200 shadow-xl shadow-cyan-950/40 lg:h-20 lg:w-20">
-              →
-            </div>
-          </div>
-
-          <PipelineCard tone="emerald" eyebrow="Clean output" title="Payer-ready roster">
-            <div className="space-y-3">
-              {[
-                ["Provider Name", "Specialty", "Effective Date"],
-                ["Amy Jones", "Cardiology", "01/02/2026"],
-                ["Robert Lee", "Family Medicine", "02/01/2026"],
-                ["Nina Patel", "Radiology", "02/15/2026"],
-              ].map((row, index) => (
-                <div key={index} className="grid grid-cols-3 gap-2 text-xs">
-                  {row.map((cell, cellIndex) => (
-                    <div key={`${index}-${cellIndex}`} className={`rounded-lg border px-2 py-2 ${index === 0 ? "border-white/10 bg-white/[0.05] font-bold text-slate-300" : "border-emerald-300/20 bg-emerald-300/10 text-emerald-200"}`}>
-                      {cell}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </PipelineCard>
+          ))}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function FlowNode({ label }) {
+  return (
+    <div className="relative flex flex-col items-center justify-center gap-3 py-6 lg:py-0">
+      <div className="absolute hidden h-1 w-40 bg-gradient-to-r from-cyan-300/10 via-cyan-300/70 to-cyan-300/10 lg:block" />
+      <div className="relative flex h-24 w-24 items-center justify-center rounded-full border border-cyan-300/30 bg-cyan-300/10 shadow-[0_0_45px_rgba(34,211,238,0.35)]">
+        <div className="absolute h-16 w-16 animate-pulse rounded-full border border-cyan-300/30" />
+        <span className="text-4xl font-black text-cyan-200">→</span>
+      </div>
+      <span className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-200">{label}</span>
+    </div>
+  );
+}
+
+function SignatureVisual() {
+  const badCells = [
+    ["Prov Name", "Spec", "Eff Date"],
+    ["Jones, Amy", "Cardio", "1-2-26"],
+    ["Lee Robert", "Fam Med", "2026/02/01"],
+    ["Patel, Nina", "Radiology", "02/15/2026"],
+  ];
+
+  const cleanCells = [
+    ["Provider Name", "Specialty", "Effective Date"],
+    ["Amy Jones", "Cardiology", "01/02/2026"],
+    ["Robert Lee", "Family Medicine", "02/01/2026"],
+    ["Nina Patel", "Radiology", "02/15/2026"],
+  ];
+
+  return (
+    <div className="relative mt-16 overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 p-6 shadow-[0_0_100px_rgba(34,211,238,0.16)] lg:p-10">
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:32px_32px] opacity-30" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.18),transparent_45%)]" />
+
+      <div className="relative grid items-center gap-8 lg:grid-cols-[1fr_120px_1.1fr_120px_1fr]">
+        <DataPanel title="Messy input" tone="rose" rows={badCells} />
+        <FlowNode label="Normalize" />
+
+        <div className="relative rounded-[2rem] border border-cyan-300/30 bg-cyan-300/10 p-6 shadow-[0_0_60px_rgba(34,211,238,0.22)]">
+          <div className="absolute -inset-4 rounded-[2.4rem] bg-cyan-400/10 blur-2xl" />
+          <div className="relative">
+            <div className="mb-5 flex items-center justify-between gap-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-200">ProviderMap engine</p>
+                <h2 className="mt-2 text-2xl font-black">Validation layer</h2>
+              </div>
+              <StatusPill color="amber">12 flags</StatusPill>
+            </div>
+
+            <div className="grid gap-3">
+              {["Normalize provider fields", "Apply payer rules", "Detect submission blockers", "Generate correction guidance"].map((item, index) => (
+                <div key={item} className="flex items-center gap-3 rounded-2xl border border-cyan-300/20 bg-slate-950/60 p-3 transition hover:border-cyan-300/40 hover:bg-slate-950/80">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-cyan-300 text-sm font-black text-slate-950">{index + 1}</div>
+                  <span className="text-sm font-semibold text-slate-100">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <FlowNode label="Transform" />
+        <DataPanel title="Clean output" tone="emerald" rows={cleanCells} />
       </div>
     </div>
   );
@@ -273,7 +228,7 @@ export default function Home() {
                 Send us a sample roster
               </a>
               <a href="#pipeline" className="rounded-xl border border-white/15 bg-white/5 px-6 py-4 text-center text-base font-bold text-white transition hover:-translate-y-1 hover:bg-white/10">
-                See the pipeline
+                See the system
               </a>
             </div>
             <div className="mt-10 grid max-w-2xl grid-cols-3 gap-3 text-center text-sm text-slate-300">
@@ -306,7 +261,12 @@ export default function Home() {
         </div>
 
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {["Rejected submissions", "Spreadsheet cleanup", "Delayed onboarding", "Directory and claims issues"].map((item) => (
+          {[
+            "Rejected submissions",
+            "Spreadsheet cleanup",
+            "Delayed onboarding",
+            "Directory and claims issues",
+          ].map((item) => (
             <div key={item} className="group rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-xl shadow-black/10 transition hover:-translate-y-1 hover:border-cyan-300/30 hover:bg-white/[0.07]">
               <div className="mb-5 h-2 w-14 rounded-full bg-cyan-300 transition group-hover:w-20" />
               <h3 className="text-lg font-bold text-white">{item}</h3>
@@ -326,7 +286,7 @@ export default function Home() {
             </p>
           </div>
 
-          <SignaturePipeline />
+          <SignatureVisual />
         </div>
       </section>
 
