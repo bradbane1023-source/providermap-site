@@ -83,7 +83,14 @@ export default function Home() {
               Stop rebuilding provider rosters for every payer.
             </h1>
             <p className="mt-6 max-w-2xl text-xl leading-8 text-slate-300">
-              ProviderMap helps provider organizations clean, standardize, validate, and transform roster data into payer-ready formats before errors create rejection loops downstream.
+              ProviderMap helps you:
+
+- Clean provider data
+- Standardize structure
+- Validate before submission
+- Transform into payer-ready formats
+
+So errors don’t turn into rejection loops downstream.
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <a href="mailto:hello@providermap.tech?subject=ProviderMap sample roster review" className="rounded-xl bg-cyan-300 px-6 py-4 text-center text-base font-semibold text-slate-950 shadow-lg shadow-cyan-300/20 transition hover:bg-cyan-200">
@@ -144,7 +151,13 @@ export default function Home() {
           <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">The real problem</p>
           <h2 className="mt-4 text-4xl font-bold tracking-tight text-white">Provider data should not be this hard.</h2>
           <p className="mt-6 text-lg leading-8 text-slate-300">
-            Every payer wants provider rosters in a different format. Different tabs. Different column names. Different rules. Different expectations. The result is rejected submissions, manual rework, onboarding delays, and downstream issues in directories and claims.
+            Every payer expects a different structure—and none of it matches how your data actually lives.
+
+What that creates:
+- Rejected submissions
+- Manual spreadsheet cleanup
+- Delayed onboarding
+- Directory and claims issues
           </p>
         </div>
 
@@ -167,8 +180,18 @@ export default function Home() {
 
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {[
-              ["01", "Normalize", "Standardize inconsistent provider data, column names, date formats, specialties, NPIs, TINs, locations, and required fields."],
-              ["02", "Validate", "Apply clear rules to identify missing values, malformed fields, TIN/NPI issues, taxonomy gaps, and payer-specific defects."],
+              ["01", "Normalize", "Standardize inconsistent provider data:
+- Column names
+- Date formats
+- NPIs and TINs
+- Specialties and taxonomy
+- Locations and required fields"],
+              ["02", "Validate", "Apply clear rules to catch:
+- Missing NPIs or invalid formats
+- TIN/NPI relationship issues
+- Specialty mismatches
+- Invalid dates
+- Payer-specific gaps"],
               ["03", "Transform", "Generate clean, payer-ready files aligned to the expected roster template and submission rules."],
             ].map(([num, title, text]) => (
               <div key={title} className="rounded-3xl border border-white/10 bg-slate-900 p-8 shadow-xl">
@@ -186,7 +209,9 @@ export default function Home() {
           <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">Sample transformation</p>
           <h2 className="mt-4 text-4xl font-bold tracking-tight text-white">From messy spreadsheet to payer-ready output.</h2>
           <p className="mt-6 text-lg leading-8 text-slate-300">
-            ProviderMap makes the hidden issues visible before a payer does. The goal is not just a cleaner file. The goal is a repeatable workflow your team can trust.
+            ProviderMap surfaces issues before a payer does.
+
+Not just a cleaner file—a repeatable workflow your team can trust.
           </p>
         </div>
 
@@ -202,7 +227,13 @@ export default function Home() {
             <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">Transparent validation</p>
             <h2 className="mt-4 text-4xl font-bold tracking-tight text-white">Rules your operators can understand.</h2>
             <p className="mt-6 text-lg leading-8 text-slate-300">
-              ProviderMap is built on clear validation logic, not opaque AI. Every rule should be visible, explainable, repeatable, and easy to test with real operating scenarios.
+              ProviderMap uses clear validation logic—not opaque AI.
+
+Every rule is:
+- Visible
+- Explainable
+- Repeatable
+- Easy to test
             </p>
           </div>
 
@@ -236,7 +267,11 @@ export default function Home() {
           </div>
           <div className="space-y-6 text-lg leading-8 text-slate-300 lg:col-span-2">
             <p>
-              ProviderMap is being built by people who understand provider data operations, payer submission friction, roster cleanup cycles, directory quality pressure, and the hidden cost of manual workarounds.
+              ProviderMap is built by people who have dealt with:
+- Payer submission rejections
+- Spreadsheet cleanup cycles
+- Directory quality pressure
+- Manual workarounds that never scale
             </p>
             <p>
               The product is intentionally practical: make the data cleaner, make the rules visible, reduce repeat rework, and help teams submit with more confidence.
@@ -251,7 +286,13 @@ export default function Home() {
             <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">Designed for responsible healthcare operations</p>
             <h2 className="mt-4 text-4xl font-bold tracking-tight text-white">Built with privacy, control, and traceability in mind.</h2>
             <p className="mt-6 text-lg leading-8 text-slate-300">
-              ProviderMap is designed around operational trust: limited data use, transparent rules, human review, and clear correction guidance. The system should support healthcare teams without forcing them to trust a black box.
+              Designed for operational trust:
+- Limited data handling
+- Transparent rules
+- Human review
+- Clear correction guidance
+
+No black box required.
             </p>
           </div>
 
@@ -285,7 +326,7 @@ export default function Home() {
       <section className="bg-cyan-300 text-slate-950">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-2 lg:items-center lg:px-8">
           <div>
-            <h2 className="text-4xl font-bold tracking-tight">Run a sample roster through the workflow.</h2>
+            <h2 className="text-4xl font-bold tracking-tight">Send us a sample roster.</h2>
             <p className="mt-4 text-lg leading-8 text-slate-800">
               Send a sample structure, walk through your current payer submission process, and see where a controlled validation workflow could reduce rework.
             </p>
