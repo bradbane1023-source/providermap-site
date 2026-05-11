@@ -153,6 +153,103 @@ function ProductPanel() {
   );
 }
 
+function PipelineCard({ tone, eyebrow, title, children }) {
+  const styles = {
+    rose: "border-rose-300/20 bg-rose-300/10 text-rose-200",
+    cyan: "border-cyan-300/20 bg-cyan-300/10 text-cyan-200",
+    emerald: "border-emerald-300/20 bg-emerald-300/10 text-emerald-200",
+  };
+
+  return (
+    <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/90 p-5 shadow-2xl shadow-black/30">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+      <div className={`mb-5 inline-flex rounded-full border px-3 py-1 text-xs font-bold ${styles[tone]}`}>
+        {eyebrow}
+      </div>
+      <h3 className="mb-5 text-xl font-black text-white">{title}</h3>
+      {children}
+    </div>
+  );
+}
+
+function SignaturePipeline() {
+  return (
+    <div className="relative mt-14">
+      <div className="absolute inset-0 rounded-[3rem] bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.20),transparent_45%)] blur-2xl" />
+      <div className="relative rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-4 shadow-2xl shadow-cyan-950/30 backdrop-blur-xl lg:p-6">
+        <div className="grid gap-5 lg:grid-cols-[1fr_96px_1fr_96px_1fr] lg:items-stretch">
+          <PipelineCard tone="rose" eyebrow="Messy input" title="Unstructured roster">
+            <div className="space-y-3">
+              {[
+                ["Prov Name", "Spec", "Eff Date"],
+                ["Jones, Amy", "Cardio", "1-2-26"],
+                ["Lee Robert", "Fam Med", "2026/02/01"],
+                ["Patel, Nina", "Radiology", "02/15/2026"],
+              ].map((row, index) => (
+                <div key={index} className="grid grid-cols-3 gap-2 text-xs">
+                  {row.map((cell, cellIndex) => (
+                    <div key={`${index}-${cellIndex}`} className={`rounded-lg border px-2 py-2 ${index === 0 ? "border-white/10 bg-white/[0.05] font-bold text-slate-300" : cell.includes("1-2") || cell.includes("2026/") || cell === "Fam Med" || cell === "Cardio" ? "border-rose-300/20 bg-rose-300/10 text-rose-200" : "border-white/10 bg-white/[0.03] text-slate-400"}`}>
+                      {cell}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </PipelineCard>
+
+          <div className="flex items-center justify-center py-2">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-cyan-300/30 bg-cyan-300/10 text-3xl font-black text-cyan-200 shadow-xl shadow-cyan-950/40 lg:h-20 lg:w-20">
+              →
+            </div>
+          </div>
+
+          <PipelineCard tone="cyan" eyebrow="ProviderMap" title="Validation engine">
+            <div className="space-y-4">
+              {["Normalize fields", "Apply payer rules", "Flag issues", "Guide corrections"].map((step, index) => (
+                <div key={step} className="flex items-center gap-3 rounded-2xl border border-cyan-300/15 bg-cyan-300/[0.06] p-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-300 text-sm font-black text-slate-950">{index + 1}</div>
+                  <span className="text-sm font-semibold text-slate-200">{step}</span>
+                </div>
+              ))}
+              <div className="rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-bold text-amber-200">Issues detected</p>
+                  <StatusPill color="amber">12 flags</StatusPill>
+                </div>
+              </div>
+            </div>
+          </PipelineCard>
+
+          <div className="flex items-center justify-center py-2">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-cyan-300/30 bg-cyan-300/10 text-3xl font-black text-cyan-200 shadow-xl shadow-cyan-950/40 lg:h-20 lg:w-20">
+              →
+            </div>
+          </div>
+
+          <PipelineCard tone="emerald" eyebrow="Clean output" title="Payer-ready roster">
+            <div className="space-y-3">
+              {[
+                ["Provider Name", "Specialty", "Effective Date"],
+                ["Amy Jones", "Cardiology", "01/02/2026"],
+                ["Robert Lee", "Family Medicine", "02/01/2026"],
+                ["Nina Patel", "Radiology", "02/15/2026"],
+              ].map((row, index) => (
+                <div key={index} className="grid grid-cols-3 gap-2 text-xs">
+                  {row.map((cell, cellIndex) => (
+                    <div key={`${index}-${cellIndex}`} className={`rounded-lg border px-2 py-2 ${index === 0 ? "border-white/10 bg-white/[0.05] font-bold text-slate-300" : "border-emerald-300/20 bg-emerald-300/10 text-emerald-200"}`}>
+                      {cell}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </PipelineCard>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="min-h-screen overflow-hidden bg-slate-950 text-white">
@@ -175,8 +272,8 @@ export default function Home() {
               <a href="mailto:hello@providermap.tech?subject=ProviderMap sample roster review" className="rounded-xl bg-cyan-300 px-6 py-4 text-center text-base font-bold text-slate-950 shadow-xl shadow-cyan-300/20 transition hover:-translate-y-1 hover:bg-cyan-200">
                 Send us a sample roster
               </a>
-              <a href="#centerpiece" className="rounded-xl border border-white/15 bg-white/5 px-6 py-4 text-center text-base font-bold text-white transition hover:-translate-y-1 hover:bg-white/10">
-                See what fails first
+              <a href="#pipeline" className="rounded-xl border border-white/15 bg-white/5 px-6 py-4 text-center text-base font-bold text-white transition hover:-translate-y-1 hover:bg-white/10">
+                See the pipeline
               </a>
             </div>
             <div className="mt-10 grid max-w-2xl grid-cols-3 gap-3 text-center text-sm text-slate-300">
@@ -193,12 +290,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="space-y-6">
-            <ProductPanel />
-            <div className="rounded-3xl border border-white/10 overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71" alt="data dashboard" className="w-full h-56 object-cover opacity-80" />
-            </div>
-          </div>
+          <ProductPanel />
         </div>
       </section>
 
@@ -223,62 +315,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-2 items-center">
-          <div>
-            <h2 className="text-3xl font-bold">Built for real provider offices</h2>
-            <p className="mt-4 text-slate-300">ProviderMap fits into the daily workflow of office managers handling payer submissions, spreadsheets, and constant updates.</p>
-          </div>
-          <div className="rounded-3xl overflow-hidden border border-white/10">
-            <img src="https://images.unsplash.com/photo-1581091870627-3d1bfa1b0d4a" alt="office manager" className="w-full h-64 object-cover opacity-80" />
-          </div>
-        </div>
-      </section>
-
-      <section id="centerpiece" className="relative border-y border-white/10 bg-white/[0.03]">
+      <section id="pipeline" className="relative border-y border-white/10 bg-white/[0.03]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.10),transparent_42%)]" />
         <div className="relative mx-auto max-w-7xl px-6 py-24 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">The moment of clarity</p>
-            <h2 className="mt-4 text-4xl font-black tracking-tight text-white sm:text-5xl">See what would fail before submission.</h2>
+            <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">The signature workflow</p>
+            <h2 className="mt-4 text-4xl font-black tracking-tight text-white sm:text-5xl">Messy roster in. Payer-ready output out.</h2>
             <p className="mt-6 text-lg leading-8 text-slate-300">
-              ProviderMap makes hidden roster issues visible before a payer rejection does.
+              ProviderMap shows what would fail before submission, explains why, and helps turn inconsistent data into a cleaner payer-ready file.
             </p>
           </div>
 
-          <div className="mt-14 grid gap-5 lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:items-center">
-            <MiniTable title="Messy input roster" rows={messyRows} tone="rose" />
-            <div className="hidden text-4xl font-black text-cyan-300 lg:block">→</div>
-            <div className="rounded-3xl border border-amber-300/20 bg-amber-300/10 p-6 shadow-2xl shadow-black/20">
-              <div className="mb-5 flex items-center justify-between">
-                <h3 className="text-sm font-bold text-amber-200">Validation flags</h3>
-                <StatusPill color="amber">12 found</StatusPill>
-              </div>
-              <div className="space-y-3">
-                {scenarioFlags.map((flag) => (
-                  <div key={flag} className="rounded-xl border border-white/10 bg-slate-950/40 px-4 py-3 text-sm text-slate-200">
-                    {flag}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="hidden text-4xl font-black text-cyan-300 lg:block">→</div>
-            <MiniTable title="Clean payer-ready output" rows={cleanRows} tone="emerald" />
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-3xl overflow-hidden border border-white/10">
-            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692" className="w-full h-48 object-cover" />
-          </div>
-          <div className="rounded-3xl overflow-hidden border border-white/10">
-            <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786" className="w-full h-48 object-cover" />
-          </div>
-          <div className="rounded-3xl overflow-hidden border border-white/10">
-            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df" className="w-full h-48 object-cover" />
-          </div>
+          <SignaturePipeline />
         </div>
       </section>
 
