@@ -193,7 +193,12 @@ export default function Home() {
             </div>
           </div>
 
-          <ProductPanel />
+          <div className="space-y-6">
+            <ProductPanel />
+            <div className="rounded-3xl border border-white/10 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71" alt="data dashboard" className="w-full h-56 object-cover opacity-80" />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -215,6 +220,18 @@ export default function Home() {
               <h3 className="text-lg font-bold text-white">{item}</h3>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-2 items-center">
+          <div>
+            <h2 className="text-3xl font-bold">Built for real provider offices</h2>
+            <p className="mt-4 text-slate-300">ProviderMap fits into the daily workflow of office managers handling payer submissions, spreadsheets, and constant updates.</p>
+          </div>
+          <div className="rounded-3xl overflow-hidden border border-white/10">
+            <img src="https://images.unsplash.com/photo-1581091870627-3d1bfa1b0d4a" alt="office manager" className="w-full h-64 object-cover opacity-80" />
+          </div>
         </div>
       </section>
 
@@ -247,6 +264,20 @@ export default function Home() {
             </div>
             <div className="hidden text-4xl font-black text-cyan-300 lg:block">→</div>
             <MiniTable title="Clean payer-ready output" rows={cleanRows} tone="emerald" />
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="rounded-3xl overflow-hidden border border-white/10">
+            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692" className="w-full h-48 object-cover" />
+          </div>
+          <div className="rounded-3xl overflow-hidden border border-white/10">
+            <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786" className="w-full h-48 object-cover" />
+          </div>
+          <div className="rounded-3xl overflow-hidden border border-white/10">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df" className="w-full h-48 object-cover" />
           </div>
         </div>
       </section>
